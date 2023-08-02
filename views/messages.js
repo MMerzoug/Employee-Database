@@ -1,0 +1,1 @@
+// define any reusable messages or prompts that can be used across different views.
