@@ -1,4 +1,5 @@
 const db = require('../db/connection');
+const messages = require('../utils/messages');
 
 // Function to add a new department
 const addDepartment = async (name) => {
