@@ -6,7 +6,7 @@ const {
     addRole,
     addEmployee,
     updateEmployeeRole,
-  } = require('./models/department');
+  } = require('../models/department');
   
   const {
     addDepartment: addRoleDepartment,

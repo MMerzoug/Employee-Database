@@ -1,5 +1,3 @@
-// messages.js
-
 // Object to store user-facing messages
 const messages = {
     success: {
