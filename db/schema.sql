@@ -5,13 +5,13 @@ USE department_db;
 -- Create the department table
 CREATE TABLE department (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR (30) NOT NULL
+  name VARCHAR (100) NOT NULL
 );
 
 -- Create the role table
 CREATE TABLE role (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  title VARCHAR(30) NOT NULL,
+  title VARCHAR(100) NOT NULL,
   salary DECIMAL NOT NULL,
   department_id INT,
   FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE
@@ -27,15 +27,7 @@ CREATE TABLE IF NOT EXISTS employee (
   FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE,
   FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
--- -- Should these be somewhere else?
--- -- Query to get all departments
--- SELECT * FROM department;
 
--- -- Query to get all roles
--- SELECT * FROM role;
-
--- -- Query to get all employees
--- SELECT * FROM employee;
 
 -- -- Query to update an employee's role
 -- UPDATE employee SET role_id = ? WHERE id = ?;

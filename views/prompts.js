@@ -38,16 +38,16 @@ const mainMenu = () => {
           showAllEmployees ();
           break;
         case 'Add a department':
-          // addDepartmentPrompt(); // Implement this function to prompt for department details
+          addDepartmentPrompt(); // Implement this function to prompt for department details
           break;
         case 'Add a role':
-          // addRolePrompt(); // Implement this function to prompt for role details
+          addRolePrompt(); // Implement this function to prompt for role details
           break;
         case 'Add an employee':
-          // addEmployeePrompt(); // Implement this function to prompt for employee details
+          addEmployeePrompt(); // Implement this function to prompt for employee details
           break;
         case 'Update an employee role':
-          // updateEmployeeRolePrompt(); // Implement this function to prompt for update details
+          updateEmployeeRolePrompt(); // Implement this function to prompt for update details
           break;
         default:
           console.log('Invalid option selected.');
@@ -81,29 +81,121 @@ const showAllEmployees = async ()=> {
   });
 };
 
-// const addNewDepartment = async ()=> {
-//  inquirer.prompt ([{
+const addDepartmentPrompt = async () => {
+  const department = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'Enter the department name:'
+    },
+  ]);
 
-//  }])
-// };
+  connect.query('INSERT INTO department SET ?', department, (err, results) => {
+    if (err) throw err;
+    console.log('Department added successfully.');
+    mainMenu();
+  });
+};
 
-// const addNewEmployee = async ()=> {
-//  inquirer.prompt ([{
+const addEmployeePrompt = async () => {
+  const employee = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'first_name',
+      message: 'Enter the first name of the employee:'
+    },
+    {
+      type: 'input',
+      name: 'last_name',
+      message: 'Enter the last name of the employee:'
+    },
+    {
+      type: 'input',
+      name: 'role_id',
+      message: 'Enter the role ID of the employee:'
+    },
+    {
+      type: 'input',
+      name: 'manager_id',
+      message: 'Enter the manager ID of the employee (leave blank if none):'
+    }
+  ]);
 
-//  }])
-// };
+  // If the manager_id field is empty, set it to NULL
+  if (employee.manager_id === '') {
+    employee.manager_id = null;
+  }
 
-// const addNewRole = async ()=> {
-//  inquirer.prompt ([{
+  connect.query('INSERT INTO employee SET ?', employee, (err, results) => {
+    if (err) throw err;
+    console.log('Employee added successfully.');
+    mainMenu();
+  });
+};
 
-//  }])
-// };
+const addRolePrompt = async () => {  
+  const role = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'Enter the role title:'
+    },
+    {
+      type: 'input',
+      name: 'salary',
+      message: 'Enter the salary for the role (No symbols or commas):'
+    },
+    {
+      type: 'input',
+      name: 'department_id',
+      message: 'Enter the department ID for the role:'
+    }
+  ]);
 
-// const updateEmployee = async ()=> {
-//  inquirer.prompt ([{
+  // Ensure salary is a number
+  role.salary = parseFloat(role.salary.replace(/[,$]/g, ""));
 
-//  }])
-// };
+  if (isNaN(role.department_id)) {
+    console.log('Error: Department ID should be a number.');
+    addRolePrompt();
+  } else {
+    connect.query('INSERT INTO role SET ?', role, (err, results) => {
+      if (err) throw err;
+      console.log('Role added successfully.');
+      mainMenu();
+    });
+  }
+};
 
-module.exports = mainMenu;
-  // Export other functions to display prompts and handle user input here
+
+const updateEmployeeRolePrompt = async () => {
+  const employee = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'employee_id',
+      message: 'Enter the ID of the employee to update:'
+    },
+    {
+      type: 'input',
+      name: 'role_id',
+      message: 'Enter the new role ID for the employee:'
+    },
+  ]);
+
+  connect.query('UPDATE employee SET role_id = ? WHERE id = ?', [employee.role_id, employee.employee_id], (err, results) => {
+    if (err) throw err;
+    console.log('Employee role updated successfully.');
+    mainMenu();
+  });
+};
+
+module.exports = {
+  mainMenu,
+  showAllDepartments,
+  showAllRoles,
+  showAllEmployees,
+  addDepartmentPrompt,
+  addRolePrompt,
+  addEmployeePrompt,
+  updateEmployeeRolePrompt
+};

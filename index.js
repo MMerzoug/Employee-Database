@@ -1,5 +1,5 @@
 const connection = require('./db/connection');
-const mainMenu= require('./views/prompts');
+const { mainMenu } = require('./views/prompts');
 const { exampleUsage, exampleUsageRoles, exampleUsageEmployees } = require('./examples');
 // const {}
 
