@@ -4,11 +4,11 @@
     "description": "A command-line application for managing departments, roles, and employees in a company",
     "main": "index.js",
     "scripts": {
-      "start": "node index.js"
+        "start": "node index.js"
     },
     "dependencies": {
-      "inquirer": "8.2.4",
-      "mysql2": "^2.3.0"
+        "inquirer": "8.2.4",
+        "mysql2": "^2.3.0",
+        "sequelize": "^6.32.1"
     }
-  }
-  
+}

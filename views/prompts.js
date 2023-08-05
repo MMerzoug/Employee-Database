@@ -1,27 +1,13 @@
-const {
-    viewDepartments,
-    viewRoles,
-    viewEmployees,
-    addDepartment,
-    addRole,
-    addEmployee,
-    updateEmployeeRole,
-  } = require('../models/department');
-  
-  const {
-    addDepartment: addRoleDepartment,
-    addRole: addRoleRole,
-  } = require('./models/role');
-  
-  const {
-    addEmployee: addEmployeeEmployee,
-    updateEmployeeRole: updateEmployeeRoleEmployee,
-  } = require('./models/employee');  
-
+const inquirer = require('inquirer');
+const connect = require('../db/connection')
 // Function to display the main menu and handle user choices
+connect.connect (err => {
+  if (err) throw err;
+  console.log('connected');
+})
 const mainMenu = () => {
   inquirer
-    .prompt([
+  .prompt([
       // Add the prompts for the main menu options here
       {
         type: 'list',
@@ -43,25 +29,25 @@ const mainMenu = () => {
       // Implement logic to handle user choices here
       switch (answers.menuChoice) {
         case 'View all departments':
-          viewDepartments();
+        showAllDepartments ();
           break;
         case 'View all roles':
-          viewRoles();
+        showAllRoles();
           break;
         case 'View all employees':
-          viewEmployees();
+          showAllEmployees ();
           break;
         case 'Add a department':
-          addDepartmentPrompt(); // Implement this function to prompt for department details
+          // addDepartmentPrompt(); // Implement this function to prompt for department details
           break;
         case 'Add a role':
-          addRolePrompt(); // Implement this function to prompt for role details
+          // addRolePrompt(); // Implement this function to prompt for role details
           break;
         case 'Add an employee':
-          addEmployeePrompt(); // Implement this function to prompt for employee details
+          // addEmployeePrompt(); // Implement this function to prompt for employee details
           break;
         case 'Update an employee role':
-          updateEmployeeRolePrompt(); // Implement this function to prompt for update details
+          // updateEmployeeRolePrompt(); // Implement this function to prompt for update details
           break;
         default:
           console.log('Invalid option selected.');
@@ -73,7 +59,51 @@ const mainMenu = () => {
     });
 };
 
-module.exports = {
-  mainMenu,
-  // Export other functions to display prompts and handle user input here
+// show all department functions here
+const showAllDepartments  = async () => {
+  connect.query ('select * from department', (err, results) => {
+    console.table (results);
+    mainMenu ();
+  });
 };
+
+const showAllRoles = async ()=> {
+  connect.query ('select * from role', (err, results) => {
+    console.table (results);
+    mainMenu ();
+  });
+};
+
+const showAllEmployees = async ()=> {
+  connect.query ('select * from employee', (err, results) => {
+    console.table (results);
+    mainMenu ();
+  });
+};
+
+// const addNewDepartment = async ()=> {
+//  inquirer.prompt ([{
+
+//  }])
+// };
+
+// const addNewEmployee = async ()=> {
+//  inquirer.prompt ([{
+
+//  }])
+// };
+
+// const addNewRole = async ()=> {
+//  inquirer.prompt ([{
+
+//  }])
+// };
+
+// const updateEmployee = async ()=> {
+//  inquirer.prompt ([{
+
+//  }])
+// };
+
+module.exports = mainMenu;
+  // Export other functions to display prompts and handle user input here

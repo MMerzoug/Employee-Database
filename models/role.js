@@ -1,4 +1,4 @@
-const db = require('../db/connection');
+// const db = require('../db/connection');
 
 // Function to add a new role
 const addRole = async (title, salary, departmentId) => {
@@ -20,8 +20,18 @@ const getAllRoles = async () => {
   }
 };
 
+// Function to get all roles
+const updateRoles = async () => {
+  try {
+    const [rows] = await db.promise().query('SELECT * FROM role');
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+};
 // Export the functions to be used in other parts of the application
 module.exports = {
   addRole,
   getAllRoles,
+  updateRoles,
 };

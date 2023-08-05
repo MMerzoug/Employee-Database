@@ -1,6 +1,3 @@
--- Use the department table
-USE employee_db;
-
 -- Insert departments
 INSERT INTO department (name) VALUES
   ('Sales'),

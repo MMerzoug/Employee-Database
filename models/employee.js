@@ -1,4 +1,4 @@
-const db = require('../db/connection');
+// const db = require('../db/connection');
 
 // Function to add a new employee
 const addEmployee = async (firstName, lastName, roleId, managerId) => {
