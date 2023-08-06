@@ -37,60 +37,60 @@ MySQL - An open-source relational database management system, primarily used in 
 
 To get a local copy up and running follow these simple steps:
 
-## Installation
+### Installation
 
 To install the necessary dependencies, run the following command in your terminal:
 
-   ```bash
-   npm i inquirer@8.2.4 mysql2
+```bash
+npm i inquirer@8.2.4 mysql2
 
-To get a local copy up and running, follow these simple steps:
+To get a local copy up and running, follow these simple steps:]
 
 1. **Clone the repository**
 
-   Open your terminal and use `git` to clone the repository. You'll need [Git](https://git-scm.com) installed on your system.
+Open your terminal and use `git` to clone the repository. You'll need [Git](https://git-scm.com) installed on your system.
 
-    ```bash
-    git clone https://github.com/MMerzoug/Employee-Database.git
+```bash
+git clone https://github.com/MMerzoug/Employee-Database.git
 
 2. **Navigate into the project directory**
 
-   Use the `cd` command to navigate into the directory where you cloned the repository.
+Use the `cd` command to navigate into the directory where you cloned the repository.
    
-   ```bash
-   cd Employee-Database
+```bash
+cd Employee-Database
 
 
 3. **Install NPM packages**
 
-   Once inside the project directory, use npm to install the necessary packages. You'll need Node.js and npm installed on your system.
+Once inside the project directory, use npm to install the necessary packages. You'll need Node.js and npm installed on your system.
 
-   ```bash
-   npm install
+```bash
+npm install
 
-    This command installs all the dependencies listed in the package.json file.
+This command installs all the dependencies listed in the package.json file.
 
 4. **Set up the database**
 
-    Make sure you have MySQL installed on your system.
-    Open the MySQL shell or workbench and source the schema.sql file to set up the database structure. If there's a seeds.sql file, you can source this file as well to populate the database with some initial data.
+Make sure you have MySQL installed on your system.
+Open the MySQL shell or workbench and source the schema.sql file to set up the database structure. If there's a seeds.sql file, you can source this file as well to populate the database with some initial data.
 
-    ```bash
-    source /Users/moniquemerzoug/bootcamp/Employee-Database/db/schema.sql
-    source /Users/moniquemerzoug/bootcamp/Employee-Database/db/seeds.sql
+```bash
+source /Users/moniquemerzoug/bootcamp/Employee-Database/db/schema.sql
+source /Users/moniquemerzoug/bootcamp/Employee-Database/db/seeds.sql
 
 5. **Update database connection information**
 
-    Update the db/connection.js file with your MySQL user and password.
+Update the db/connection.js file with your MySQL user and password.
 
 6. **Start the application**
 
-    Use Node.js to start the application.
+Use Node.js to start the application.
 
-    ```bash
+```bash
     node server.js
 
-    You should now have the application running on your local system! You can interact with it through your terminal.
+You should now have the application running on your local system! You can interact with it through your terminal.
 
 ## Usage
 
