@@ -1,14 +1,12 @@
+// Set the maximum number of listeners
+require('events').EventEmitter.defaultMaxListeners = 1000;
+
 const inquirer = require('inquirer');
 const connect = require('../db/connection')
-// Function to display the main menu and handle user choices
-connect.connect (err => {
-  if (err) throw err;
-  console.log('connected');
-})
+
 const mainMenu = () => {
   inquirer
   .prompt([
-      // Add the prompts for the main menu options here
       {
         type: 'list',
         name: 'menuChoice',
@@ -21,63 +19,78 @@ const mainMenu = () => {
           'Add a role',
           'Add an employee',
           'Update an employee role',
-          // Add other menu options as needed
         ],
       },
     ])
-    .then((answers) => {
-      // Implement logic to handle user choices here
-      switch (answers.menuChoice) {
-        case 'View all departments':
-        showAllDepartments ();
-          break;
-        case 'View all roles':
-        showAllRoles();
-          break;
-        case 'View all employees':
-          showAllEmployees ();
-          break;
-        case 'Add a department':
-          addDepartmentPrompt(); // Implement this function to prompt for department details
-          break;
-        case 'Add a role':
-          addRolePrompt(); // Implement this function to prompt for role details
-          break;
-        case 'Add an employee':
-          addEmployeePrompt(); // Implement this function to prompt for employee details
-          break;
-        case 'Update an employee role':
-          updateEmployeeRolePrompt(); // Implement this function to prompt for update details
-          break;
-        default:
-          console.log('Invalid option selected.');
-          break;
+    .then(async (answers) => {
+      try {
+        switch (answers.menuChoice) {
+          case 'View all departments':
+            await showAllDepartments();
+            break;
+          case 'View all roles':
+            await showAllRoles();
+            break;
+          case 'View all employees':
+            await showAllEmployees();
+            break;
+          case 'Add a department':
+            await addDepartmentPrompt();
+            break;
+          case 'Add a role':
+            await addRolePrompt();
+            break;
+          case 'Add an employee':
+            await addEmployeePrompt();
+            break;
+          case 'Update an employee role':
+            await updateEmployeeRolePrompt();
+            break;
+          default:
+            console.log('Invalid option selected.');
+            break;
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+    }).finally(() => {
+      mainMenu();
     });
 };
 
-// show all department functions here
 const showAllDepartments  = async () => {
-  connect.query ('select * from department', (err, results) => {
-    console.table (results);
-    mainMenu ();
+  return new Promise((resolve, reject) => {
+    connect.query('select * from department', (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      console.table(results);
+      resolve(results);
+    });
   });
 };
 
 const showAllRoles = async ()=> {
-  connect.query ('select * from role', (err, results) => {
-    console.table (results);
-    mainMenu ();
+  return new Promise((resolve, reject) => {
+    connect.query('select * from role', (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      console.table(results);
+      resolve(results);
+    });
   });
 };
 
 const showAllEmployees = async ()=> {
-  connect.query ('select * from employee', (err, results) => {
-    console.table (results);
-    mainMenu ();
+  return new Promise((resolve, reject) => {
+    connect.query('select * from employee', (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      console.table(results);
+      resolve(results);
+    });
   });
 };
 
@@ -86,14 +99,14 @@ const addDepartmentPrompt = async () => {
     {
       type: 'input',
       name: 'name',
-      message: 'Enter the department name:'
+      message: 'Enter the department name:',
+      validate: (value) => value ? true : "Please enter a department name"
     },
   ]);
 
   connect.query('INSERT INTO department SET ?', department, (err, results) => {
     if (err) throw err;
     console.log('Department added successfully.');
-    mainMenu();
   });
 };
 
@@ -117,7 +130,8 @@ const addEmployeePrompt = async () => {
     {
       type: 'input',
       name: 'manager_id',
-      message: 'Enter the manager ID of the employee (leave blank if none):'
+      message: 'Enter the manager ID of the employee (leave blank if none):',
+      validate: (value) => value === '' || !isNaN(parseInt(value)) ? true : 'Please enter a valid number or leave blank'
     }
   ]);
 
@@ -126,11 +140,27 @@ const addEmployeePrompt = async () => {
     employee.manager_id = null;
   }
 
-  connect.query('INSERT INTO employee SET ?', employee, (err, results) => {
-    if (err) throw err;
-    console.log('Employee added successfully.');
-    mainMenu();
-  });
+//   connect.query('INSERT INTO employee SET ?', employee, (err, results) => {
+//     if (err) throw err;
+//     console.log('Employee added successfully.');
+//   });
+// };
+
+// Verify role_id exists in 'role' table
+connect.query('SELECT * FROM role WHERE id = ?', [employee.role_id], (err, results) => {
+  if (err) throw err;
+
+  // If no matching role is found
+  if (results.length === 0) {
+    console.log('Role ID does not exist. Please provide a valid role ID.');
+  } else {
+    // If matching role is found, add the employee
+    connect.query('INSERT INTO employee SET ?', employee, (err, results) => {
+      if (err) throw err;
+      console.log('Employee added successfully.');
+    });
+  }
+});
 };
 
 const addRolePrompt = async () => {  
@@ -148,7 +178,8 @@ const addRolePrompt = async () => {
     {
       type: 'input',
       name: 'department_id',
-      message: 'Enter the department ID for the role:'
+      message: 'Enter the department ID for the role:',
+      validate: (value) => !isNaN(parseInt(value)) ? true : 'Please enter a valid number'
     }
   ]);
 
@@ -162,11 +193,9 @@ const addRolePrompt = async () => {
     connect.query('INSERT INTO role SET ?', role, (err, results) => {
       if (err) throw err;
       console.log('Role added successfully.');
-      mainMenu();
     });
   }
 };
-
 
 const updateEmployeeRolePrompt = async () => {
   const employee = await inquirer.prompt([
@@ -182,20 +211,30 @@ const updateEmployeeRolePrompt = async () => {
     },
   ]);
 
-  connect.query('UPDATE employee SET role_id = ? WHERE id = ?', [employee.role_id, employee.employee_id], (err, results) => {
-    if (err) throw err;
-    console.log('Employee role updated successfully.');
-    mainMenu();
-  });
+//   connect.query('UPDATE employee SET role_id = ? WHERE id = ?', [employee.role_id, employee.employee_id], (err, results) => {
+//     if (err) throw err;
+//     console.log('Employee role updated successfully.');
+//   });
+// };
+
+// Verify role_id exists in 'role' table
+connect.query('SELECT * FROM role WHERE id = ?', [employee.role_id], (err, results) => {
+  if (err) throw err;
+
+  // If no matching role is found
+  if (results.length === 0) {
+    console.log('Role ID does not exist. Please provide a valid role ID.');
+  } else {
+    // If matching role is found, update the employee
+    connect.query('UPDATE employee SET role_id = ? WHERE id = ?', [employee.role_id, employee.employee_id], (err, results) => {
+      if (err) throw err;
+      console.log('Employee role updated successfully.');
+      // mainMenu();
+    });
+  }
+});
 };
 
 module.exports = {
   mainMenu,
-  showAllDepartments,
-  showAllRoles,
-  showAllEmployees,
-  addDepartmentPrompt,
-  addRolePrompt,
-  addEmployeePrompt,
-  updateEmployeeRolePrompt
 };

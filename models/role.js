@@ -1,10 +1,13 @@
-// const db = require('../db/connection');
+const db = require('../db/connection');
 
 // Function to add a new role
+
 const addRole = async (title, salary, departmentId) => {
   try {
     const [result] = await db.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, departmentId]);
     return result.insertId;
+    // const [result] = await db.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [title, salary, departmentId]);
+    // return result.insertId;
   } catch (error) {
     throw error;
   }
@@ -21,9 +24,10 @@ const getAllRoles = async () => {
 };
 
 // Function to get all roles
-const updateRoles = async () => {
+const updateRole = async () => {
   try {
     const [rows] = await db.promise().query('SELECT * FROM role');
+    // const [rows] = await db.promise().query('SELECT * FROM role');
     return rows;
   } catch (error) {
     throw error;
@@ -33,5 +37,5 @@ const updateRoles = async () => {
 module.exports = {
   addRole,
   getAllRoles,
-  updateRoles,
+  updateRole
 };
