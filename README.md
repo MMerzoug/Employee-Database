@@ -111,10 +111,11 @@ Node.js
 Inquirer
 MySQL
 
-## Preview Video
+## Walkthrough Video
 
-<iframe src="https://drive.google.com/file/d/1BM8IIpLaW31Fe62xog5jK-Im3TF6nPAn/preview" width="640" height="480"></iframe>
+A walkthrough video demonstrating the functionality of the application can be found at the following link:
 
+[Walkthrough Video](https://drive.google.com/file/d/1mAMqSBPHSaKoWWscKRQG8mmwl-YQcBL_/view)
 
 ## Contact
 
