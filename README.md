@@ -2,7 +2,6 @@
 
 This project is a command-line application for managing a company's employee database. It's built with Node.js, Inquirer, and MySQL, and allows non-developers to easily view and interact with information stored in databases.
 
-![Database Schema](./assets/images/schema.png)
 
 ## Table of Contents
 
