@@ -19,8 +19,6 @@ This project is a command-line application for managing a company's employee dat
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 The Employee Tracker is a command-line application designed to streamline the management of a company's employee database. It serves as a user-friendly interface enabling business owners, especially those without deep tech expertise, to view and interact with data stored in MySQL databases. Built with Node.js, Inquirer, and MySQL, the application provides functionalities such as viewing all departments, roles, and employees, adding new departments, roles, or employees, and updating an employee's role. By offering these capabilities in a well-organized and straightforward manner, the Employee Tracker aids in the efficient planning and organization of a business.
 
 ## Built With
@@ -41,8 +39,7 @@ To get a local copy up and running follow these simple steps:
 
 To install the necessary dependencies, run the following command in your terminal:
 
-```bash
-npm i inquirer@8.2.4 mysql2
+```npm i inquirer@8.2.4 mysql2```
 
 To get a local copy up and running, follow these simple steps:]
 
@@ -50,23 +47,20 @@ To get a local copy up and running, follow these simple steps:]
 
 Open your terminal and use `git` to clone the repository. You'll need [Git](https://git-scm.com) installed on your system.
 
-```bash
-git clone https://github.com/MMerzoug/Employee-Database.git
+```git clone https://github.com/MMerzoug/Employee-Database.git```
 
 2. **Navigate into the project directory**
 
 Use the `cd` command to navigate into the directory where you cloned the repository.
-   
-```bash
-cd Employee-Database
+
+```cd Employee-Database```
 
 
 3. **Install NPM packages**
 
 Once inside the project directory, use npm to install the necessary packages. You'll need Node.js and npm installed on your system.
 
-```bash
-npm install
+```npm install```
 
 This command installs all the dependencies listed in the package.json file.
 
@@ -75,9 +69,8 @@ This command installs all the dependencies listed in the package.json file.
 Make sure you have MySQL installed on your system.
 Open the MySQL shell or workbench and source the schema.sql file to set up the database structure. If there's a seeds.sql file, you can source this file as well to populate the database with some initial data.
 
-```bash
-source /Users/moniquemerzoug/bootcamp/Employee-Database/db/schema.sql
-source /Users/moniquemerzoug/bootcamp/Employee-Database/db/seeds.sql
+```source /Users/moniquemerzoug/bootcamp/Employee-Database/db/schema.sql```
+```source /Users/moniquemerzoug/bootcamp/Employee-Database/db/seeds.sql```
 
 5. **Update database connection information**
 
@@ -87,8 +80,7 @@ Update the db/connection.js file with your MySQL user and password.
 
 Use Node.js to start the application.
 
-```bash
-    node server.js
+```node server.js```
 
 You should now have the application running on your local system! You can interact with it through your terminal.
 
@@ -96,15 +88,13 @@ You should now have the application running on your local system! You can intera
 
 After installing the dependencies, you can run the application with this command:
 
-```bash
-node index.js
+```node index.js```
 
 ## Tests
 
 You can run tests using the following command:
 
-```bash
-npm test
+```npm test```
 
 ## Best Code Practices
 
@@ -122,17 +112,21 @@ Node.js
 Inquirer
 MySQL
 
-## Screenshots
+## Preview Video
+
+<iframe src="https://drive.google.com/file/d/1BM8IIpLaW31Fe62xog5jK-Im3TF6nPAn/preview" width="640" height="480"></iframe>
+
 
 ## Contact
 
 If you have any questions, feel free to reach out to me!
 
-Github: moniquemerzoug
-Email: monique.merzoug@example.com
+Github: MMerzoug
+Email: monique.merzoug@icloud.com
 
 ## License
 
 This project is licensed under the terms of the MIT license.
 
 © 2023 Monique Merzoug. All Rights Reserved.
+

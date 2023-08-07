@@ -82,9 +82,41 @@ const showAllRoles = async ()=> {
   });
 };
 
-const showAllEmployees = async ()=> {
+// const showAllEmployees = async ()=> {
+//   return new Promise((resolve, reject) => {
+//     connect.query('select * from employee', (err, results) => {
+//       if (err) {
+//         return reject(err);
+//       }
+//       console.table(results);
+//       resolve(results);
+//     });
+//   });
+// };
+
+const showAllEmployees = async () => {
   return new Promise((resolve, reject) => {
-    connect.query('select * from employee', (err, results) => {
+    const query = `
+      SELECT 
+        E.id, 
+        E.first_name, 
+        E.last_name, 
+        R.title AS role_title, 
+        D.name AS department_name, 
+        R.salary AS role_salary, 
+        M.first_name AS manager_first_name, 
+        M.last_name AS manager_last_name
+      FROM 
+        employee E
+      LEFT JOIN 
+        role R ON E.role_id = R.id
+      LEFT JOIN 
+        department D ON R.department_id = D.id
+      LEFT JOIN 
+        employee M ON E.manager_id = M.id
+    `;
+
+    connect.query(query, (err, results) => {
       if (err) {
         return reject(err);
       }
@@ -93,6 +125,7 @@ const showAllEmployees = async ()=> {
     });
   });
 };
+
 
 const addDepartmentPrompt = async () => {
   const department = await inquirer.prompt([
@@ -139,12 +172,6 @@ const addEmployeePrompt = async () => {
   if (employee.manager_id === '') {
     employee.manager_id = null;
   }
-
-//   connect.query('INSERT INTO employee SET ?', employee, (err, results) => {
-//     if (err) throw err;
-//     console.log('Employee added successfully.');
-//   });
-// };
 
 // Verify role_id exists in 'role' table
 connect.query('SELECT * FROM role WHERE id = ?', [employee.role_id], (err, results) => {
@@ -210,12 +237,6 @@ const updateEmployeeRolePrompt = async () => {
       message: 'Enter the new role ID for the employee:'
     },
   ]);
-
-//   connect.query('UPDATE employee SET role_id = ? WHERE id = ?', [employee.role_id, employee.employee_id], (err, results) => {
-//     if (err) throw err;
-//     console.log('Employee role updated successfully.');
-//   });
-// };
 
 // Verify role_id exists in 'role' table
 connect.query('SELECT * FROM role WHERE id = ?', [employee.role_id], (err, results) => {
